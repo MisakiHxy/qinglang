@@ -12,41 +12,29 @@ servers:
     description: Inferred Url
 tags:
   - name: PCF签约解约
-    extensions:
-      x-order: '2147483647'
+
   - name: SubscribeWhiteController
-    extensions:
-      x-order: '2147483647'
+
   - name: apply-rgcode-controller
-    extensions:
-      x-order: '2147483647'
+
   - name: atg-log-controller
-    extensions:
-      x-order: '2147483647'
+
   - name: call-back-contorller-first
-    extensions:
-      x-order: '2147483647'
+
   - name: call-back-controller-adduserprofile
-    extensions:
-      x-order: '2147483647'
+
   - name: call-back-controller-common
-    extensions:
-      x-order: '2147483647'
+
   - name: call-back-controller-delete
-    extensions:
-      x-order: '2147483647'
+
   - name: call-back-controller-last
-    extensions:
-      x-order: '2147483647'
+
   - name: call-back-controller-second
-    extensions:
-      x-order: '2147483647'
+
   - name: user-status-controller
-    extensions:
-      x-order: '2147483647'
+
   - name: 黑名单规则
-    extensions:
-      x-order: '2147483647'
+
 paths:
   /ctri/atomdir/applyrgCode:
     post:
@@ -74,8 +62,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/serviceAgent/rest/userSafeMg/selectAtgLog:
     post:
       tags:
@@ -104,8 +91,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/atomdir/blackRule:
     post:
       tags:
@@ -132,8 +118,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/atomdir/blackRuleRemove:
     post:
       tags:
@@ -160,8 +145,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/callBack/l347First:
     post:
       tags:
@@ -188,8 +172,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/callBack/addUserProfile:
     post:
       tags:
@@ -216,8 +199,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/callBack/Common:
     post:
       tags:
@@ -245,8 +227,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/callBack/l347Delete:
     post:
       tags:
@@ -273,8 +254,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/callBack/l347Last:
     post:
       tags:
@@ -301,8 +281,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/callBack/l347Second:
     post:
       tags:
@@ -329,8 +308,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/atomdir/subscribeblack:
     post:
       tags:
@@ -357,8 +335,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/atomdir/unsubscribeblack:
     post:
       tags:
@@ -385,8 +362,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/atomdir/subscribewhite:
     post:
       tags:
@@ -413,8 +389,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
   /ctri/serviceAgent/rest/ctsi-5gc-interface-common/safeMg/getNumberState:
     post:
       tags:
@@ -441,8 +416,7 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      extensions:
-        x-order: '2147483647'
+
 components:
   schemas:
     ApplyrgCode:
