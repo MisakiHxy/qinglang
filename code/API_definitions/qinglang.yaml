@@ -63,11 +63,6 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
-              schema:
-                $ref: >-
-                  Error-ModelName{namespace='com.chinatelecom.qinglang.domin',
-                  name='R«RespDto»'}
             '*/*':
               schema:
                 $ref: '#/components/schemas/RespDto'
@@ -96,11 +91,6 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
-              schema:
-                $ref: >-
-                  Error-ModelName{namespace='com.chinatelecom.qinglang.domin',
-                  name='R«ResponseEntity«List«AtgLog»»»'}
             '*/*':
               schema:
                 type: array
@@ -131,11 +121,6 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
-              schema:
-                $ref: >-
-                  Error-ModelName{namespace='com.chinatelecom.qinglang.domin',
-                  name='R«RespDto»'}
             '*/*':
               schema:
                 $ref: '#/components/schemas/RespDto'
@@ -164,11 +149,6 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
-              schema:
-                $ref: >-
-                  Error-ModelName{namespace='com.chinatelecom.qinglang.domin',
-                  name='R«RespDto»'}
             '*/*':
               schema:
                 $ref: '#/components/schemas/RespDto'
@@ -366,11 +346,6 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
-              schema:
-                $ref: >-
-                  Error-ModelName{namespace='com.chinatelecom.qinglang.domin',
-                  name='R«CompletableFuture«RespDto»»'}
             '*/*':
               schema:
                 $ref: '#/components/schemas/CompletableFuture«RespDto»'
@@ -399,11 +374,6 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
-              schema:
-                $ref: >-
-                  Error-ModelName{namespace='com.chinatelecom.qinglang.domin',
-                  name='R«RespDto»'}
             '*/*':
               schema:
                 $ref: '#/components/schemas/RespDto'
@@ -432,11 +402,6 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
-              schema:
-                $ref: >-
-                  Error-ModelName{namespace='com.chinatelecom.qinglang.domin',
-                  name='R«CompletableFuture«RespDto»»'}
             '*/*':
               schema:
                 $ref: '#/components/schemas/CompletableFuture«RespDto»'
@@ -465,11 +430,6 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
-              schema:
-                $ref: >-
-                  Error-ModelName{namespace='com.chinatelecom.qinglang.domin',
-                  name='R«ResponseEntity«RespUserStatus»»'}
             '*/*':
               schema:
                 $ref: '#/components/schemas/RespUserStatus'
