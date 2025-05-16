@@ -1,0 +1,519 @@
+openapi: 3.0.3
+info:
+  title: 上网管控能力 - 接口文档
+  description: |
+    # 概述
+    
+    作为企业的应用程序开发人员，希望（使用应用程序服务器/后端服务），从通信服务提供商（CSP）请求对指定号码进行移动数据上网业务的功能管理，以便确保为最终用户提供个性化的移动上网配置业务服务，包括面向未成年人及青少年的上网时间管理、特定环境下的指定用户设备上网功能开禁管理。
+    
+    # 先决条件
+    
+    1.	受控终端用户是电信5G套餐签约用户。
+    2.	能力调用方已经成功地从原子能力平台订阅了移动上网管控能力产品。
+    3.	终端用户在中国电信网络的4G或5G网络下正常使用的终端。
+    4.	用户应在UDM或PCF（PCRF）网元上已具备开户信息。
+    5.	能力调用方应在已分配的并发调用量下进行相关业务，超出并发量会受到限制。
+
+    # 步骤
+    
+    何时开始：能力调用方应用服务器向上网管控API发出POST请求，以创建新的控制业务连接。
+    1、能力调用方可以通过接口查询用户受控终端手机号码的4G/5G套餐签约情况，或者通过其他渠道确定签约情况。
+    2、能力调用方在确认受控终端可用后，通过调用能力订阅接口进行对指定用户手机号进行管控。
+    3、能力提供方向指定的PCF（PCRF）网元进行套餐签约操作。
+    在以下情况结束：客户应用服务器向上网管控API 发出退订POST请求，或者受控终端非5G套餐签约用户或者PCF/PCRF网元上没有相关开户信息。
+
+    # swagger文件制定要求
+    1、内容无报错
+    2、api和参数需要文字描述说明。
+    
+
+  version: v1.0
+servers:
+  - url: '{apiRoot}/serviceAgent/rest/openapi'
+    variables:
+      apiRoot:
+        default: http://localhost:8004
+        description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath
+tags:
+  - name: 上网管控签约接口
+    description: 调用接口在网络侧对用户进行签约
+  - name: 上网管控解约接口
+    description: 调用接口在网络侧对用户进行解约
+  - name: 用户状态查询接口
+    description: 调用接口对用户上网管控状态进行查询操作
+  - name: 操作溯源查询接口
+    description: 调用接口对用户上网管控操作日志进行查询操作
+  - name: 手机号码类型查询接口
+    description: 调用接口对手机号码4/5G套餐类型进行查询操作
+
+paths:
+  /serviceAgent/rest/openapi/pcfOfferData:
+    post:
+      tags:
+        - 上网管控签约接口
+      summary: 调用接口在网络侧对用户进行签约
+      operationId: OrderingOfSalesItems
+      parameters:
+        - $ref: "#/components/parameters/peerApp"
+        - $ref: "#/components/parameters/account"
+        - $ref: "#/components/parameters/contactName"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderingOfSalesItemsRequestBody'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderingOfSalesItemsResponse'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/PhoneNumberVerificationPermissionDenied403'
+  /serviceAgent/rest/openapi/pcfOfferData2:
+    post:
+      tags:
+        - 上网管控解约接口
+      summary: 调用接口在网络侧对用户进行解约
+      operationId: CancellationOfSalesItems
+      parameters:
+        - $ref: "#/components/parameters/peerApp"
+        - $ref: "#/components/parameters/account"
+        - $ref: "#/components/parameters/contactName"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancellationOfSalesItemsRequestBody'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancellationOfSalesItemsResponse'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/PhoneNumberVerificationPermissionDenied403'
+  /serviceAgent/rest/ctsi-5gc-interface-common/safeMg/getNumberState:
+    post:
+      tags:
+        - 用户状态查询接口
+      summary: 调用接口对用户上网管控状态进行查询操作
+      operationId: UserStatus
+      parameters:
+        - $ref: "#/components/parameters/peerApp"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserStatusRequestBody'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStatusResponse'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/PhoneNumberVerificationPermissionDenied403'
+  /serviceAgent/rest/userSafeMg/selectAtgLog:
+    post:
+      tags:
+        - 操作溯源查询接口
+      summary: 调用接口对用户上网管控操作日志进行查询操作
+      operationId: OperationTraceability
+      parameters:
+        - $ref: "#/components/parameters/peerApp"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationTraceabilityRequestBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationTraceabilityResponse'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/PhoneNumberVerificationPermissionDenied403'
+  /serviceAgent/rest/userSafeMg/getPhoneType:
+    post:
+      tags:
+        - 手机号码类型查询接口
+      summary: 调用接口对手机号码4/5G套餐类型进行查询操作
+      operationId: MobilePhoneNumberType
+      parameters:
+        - $ref: "#/components/parameters/peerApp"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobilePhoneNumberTypeRequestBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobilePhoneNumberTypeResponse'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/PhoneNumberVerificationPermissionDenied403'
+components:
+  parameters:
+    peerApp:
+      name: peerApp
+      in: header
+      description: 对端系统，需使用URLEncoder.encode("String","UTF-8")方法进行编码
+    account:
+      name: account
+      in: header
+      description: 手机号，需使用URLEncoder.encode("String","UTF-8")方法进行编码
+    contactName:
+      name: contactName
+      in: header
+      description: 人员姓名，需使用URLEncoder.encode("String","UTF-8")方法进行编码
+  schemas:
+    OrderingOfSalesItemsRequestBody:
+      type: object
+      properties:
+        isdn:
+          type: string
+          description: 移动号码（手机号码前需+86）例：8619337186104
+          example: "8619337186104"
+    CancellationOfSalesItemsRequestBody:
+      type: object
+      properties:
+        isdn:
+          type: string
+          description: 移动号码（手机号码前需+86）例：8619337186104
+          example: "8619337186104"
+    UserStatusRequestBody:
+      type: object
+      properties:
+        isdn:
+          type: string
+          description: 移动号码（手机号码前需+86）例：8619337186104
+          example: "8619337186104"
+    OperationTraceabilityRequestBody:
+      type: object
+      properties:
+        isdn:
+          type: string
+          description: 移动号码（手机号码前需+86）例：8619337186104
+          example: "8619337186104"
+        atgBeginTime:
+          type: string
+          description: 格式：yyyy-MM-dd HH:mm:ss
+          example: "2022-10-06 09:15:00"
+        atgEndTime:
+          type: string
+          description: 格式：yyyy-MM-dd HH:mm:ss
+          example: "2022-10-09 09:15:00"
+    MobilePhoneNumberTypeRequestBody:
+      type: object
+      properties:
+        isdn:
+          type: string
+          description: 移动号码（手机号码前需+86）例：8619337186104
+          example: "8619337186104"
+    OrderingOfSalesItemsResponse:
+      type: object
+      description: Ordering Of Sales Items result
+      required:
+        - resultCode
+        - resultMsg
+      properties:
+        resultCode:
+          $ref: '#/components/schemas/resultCode'
+        resultMsg:
+          $ref: '#/components/schemas/resultMsg'
+    CancellationOfSalesItemsResponse:
+      type: object
+      description: Cancellation Of Sales Items result
+      required:
+        - resultCode
+        - resultMsg
+      properties:
+        resultCode:
+          $ref: '#/components/schemas/resultCode'
+        resultMsg:
+          $ref: '#/components/schemas/resultMsg'
+    UserStatusResponse:
+      type: object
+      description: User Status result
+      required:
+        - result
+        - msg
+        - isdn
+        - done
+      properties:
+        result:
+          $ref: '#/components/schemas/result'
+        msg:
+          $ref: '#/components/schemas/msg'
+        isdn:
+          $ref: '#/components/schemas/isdn'
+        done:
+          $ref: '#/components/schemas/done'
+    OperationTraceabilityResponse:
+      type: object
+      description: Operation Traceability result
+      required:
+        - msg
+        - code
+        - data
+      properties:
+        msg:
+          $ref: '#/components/schemas/msg'
+        code:
+          $ref: '#/components/schemas/code'
+        data:
+          $ref: '#/components/schemas/data1'
+    MobilePhoneNumberTypeResponse:
+      type: object
+      description: Mobile Phone Number Type result
+      required:
+        - msg
+        - code
+        - data
+      properties:
+        msg:
+          $ref: '#/components/schemas/msg'
+        code:
+          $ref: '#/components/schemas/code'
+        data:
+          $ref: '#/components/schemas/data2'
+    resultCode:
+      description: 处理结果标识
+      type: string
+      example: "处理结果标识"
+    resultMsg:
+      description: 返回结果描述
+      type: string
+      example: "返回结果描述"
+    result:
+      description: 结果：成功、失败
+      type: string
+      example: "成功"
+    msg:
+      description: 返回结果描述
+      type: string
+      example: "success"
+    isdn:
+      description: 例：8619337186415
+      type: string
+      example: "8619337186415"
+    done:
+      description: 限速、非限速
+      type: string
+      example: "限速"
+    code:
+      description: code
+      type: string
+      example: "1"
+    data1:
+      description: 返回数据
+      type: object
+      required:
+        - vendor
+        - operator
+        - operatorTime
+        - operatorCmd
+        - operatorResult
+        - failResult
+        - imsi
+        - serial
+        - executeTime
+      properties:
+        vendor:
+          $ref: '#/components/schemas/vendor'
+        operator:
+          $ref: '#/components/schemas/operator'
+        operatorTime:
+          $ref: '#/components/schemas/operatorTime'
+        operatorCmd:
+          $ref: '#/components/schemas/operatorCmd'
+        operatorResult:
+          $ref: '#/components/schemas/operatorResult'
+        failResult:
+          $ref: '#/components/schemas/failResult'
+        imsi:
+          $ref: '#/components/schemas/imsi'
+        serial:
+          $ref: '#/components/schemas/serial'
+        executeTime:
+          $ref: '#/components/schemas/executeTime'
+    data2:
+      description: 返回数据
+      type: object
+      required:
+        - phoneType
+        - failResult
+      properties:
+        vendor:
+          $ref: '#/components/schemas/phoneType'
+        operator:
+          $ref: '#/components/schemas/failResult'
+    vendor:
+      description: 厂商
+      type: string
+      example: "中兴"
+    operator:
+      description: 中兴为逻辑号码，爱立信为instance字段
+      type: string
+      example: "8619987727897"
+    operatorTime:
+      description: 例：2022-10-09 07:49:14
+      type: string
+      example: "2022-10-09 07:49:14"
+    operatorCmd:
+      description: 操作命令
+      type: string
+      example: "MOD STATE"
+    operatorResult:
+      description: 中兴为ERRTYPE，爱立信为Status
+      type: string
+      example: "0"
+    failResult:
+      description: 中兴为ERRTYPE，爱立信为返回报文。目前这个字段我们无论成功或者失败都会返回，可按需获取。
+      type: string
+      example: "0"
+    imsi:
+      description: 中兴正常都会返回，爱立信没有这个字段
+      type: string
+      example: "460115447153859"
+    serial:
+      description: 中兴流水号来自采控原始文件，爱立信流水号为5GC生成
+      type: string
+      example: "00100907491432925584"
+    executeTime:
+      description: 执行时间。爱立信有，中兴没有该字段
+      type: string
+      example:
+    phoneType:
+      description: 0:非5G 1:5G 2:失败原因 null：校验不通过
+      type: string
+      example:
+    ErrorInfo:
+      type: object
+      required:
+        - status
+        - code
+        - message
+      properties:
+        status:
+          type: integer
+          description: HTTP response status code
+        code:
+          type: string
+          description: Code given to this error
+        message:
+          type: string
+          description: Detailed error description
+  responses:
+    Generic400:
+      description: Problem with the client request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 400
+                  code:
+                    enum:
+                      - INVALID_ARGUMENT
+          example:
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Client specified an invalid argument, request body or query param
+    Generic401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 401
+                  code:
+                    enum:
+                      - UNAUTHENTICATED
+                      - AUTHENTICATION_REQUIRED
+          examples:
+            GENERIC_401_UNAUTHENTICATED:
+              description: Request cannot be authenticated
+              value:
+                status: 401
+                code: UNAUTHENTICATED
+                message: Request not authenticated due to missing, invalid, or expired credentials.
+            GENERIC_401_AUTHENTICATION_REQUIRED:
+              description: New authentication is needed, authentication is no longer valid
+              value:
+                status: 401
+                code: AUTHENTICATION_REQUIRED
+                message: New authentication is required.
+    PhoneNumberVerificationPermissionDenied403:
+      description: |
+        Client does not have sufficient permission.
+        In addition to regular scenario of `PERMISSION_DENIED`, other scenarios may exist:
+          - Client authentication was not via mobile network. In order to check the authentication method, AMR parameter value in the 3-legged user's access token can be used and make sure that the authentication was not either by SMS+OTP nor username/password (`{"code": "NUMBER_VERIFICATION.USER_NOT_AUTHENTICATED_BY_MOBILE_NETWORK","message": "Client must authenticate via the mobile network to use this service"}`)
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 403
+                  code:
+                    enum:
+                      - PERMISSION_DENIED
+                      - NUMBER_VERIFICATION.USER_NOT_AUTHENTICATED_BY_MOBILE_NETWORK
+          examples:
+            GENERIC_403_PERMISSION_DENIED:
+              description: Permission denied. OAuth2 token access does not have the required scope or when the user fails operational security
+              value:
+                status: 403
+                code: PERMISSION_DENIED
+                message: Client does not have sufficient permissions to perform this action.
+            GENERIC_403_USER_NOT_AUTHENTICATED_BY_MOBILE_NETWORK:
+              value:
+                status: 403
+                code: NUMBER_VERIFICATION.USER_NOT_AUTHENTICATED_BY_MOBILE_NETWORK
+                message: Client must authenticate via the mobile network to use this service
+
